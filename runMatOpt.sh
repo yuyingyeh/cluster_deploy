@@ -1,5 +1,6 @@
 #!/bin/sh
 
-pip install tqdm
+pip3 install tqdm ipython
+pip3 install torch --upgrade
 cd /siggraphasia20dataset/adobe_svbrdf-master
-python script_optimGANdatasetAllcluster.py --start $1 --end $2
+python3 script_optimGANdatasetAllcluster.py --start $1 --end $2
