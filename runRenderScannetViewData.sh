@@ -7,4 +7,4 @@ python renderImgSN.py --sceneId $1 --forceOutput
 python renderDepthSN.py --sceneId $1 --forceOutput
 python renderMatPartSN.py --sceneId $1 --forceOutput
 pip3 install tqdm opencv-python==3.4.2.17
-python3 fromHDRtoLDR.py --sceneId $1 --rgbMode imscannet --matMode _
+python3 fromHDRtoLDR.py --sceneId $1 --rgbMode im --matMode '_'
