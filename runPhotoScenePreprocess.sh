@@ -14,4 +14,4 @@ python script_preprocess.py --sceneId $1 --machine cluster
 bash script_runInvRender.sh $1 0 "cluster"
 
 pip3 install torch --upgrade
-python script_preprocess2.py --sceneId $1 --machine cluster --renderDefault
+python script_preprocess2.py --sceneId $1 --machine cluster --renderDefault --renderWhite
