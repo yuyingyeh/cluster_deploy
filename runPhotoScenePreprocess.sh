@@ -9,6 +9,7 @@ python script_extractScanNet.py --sceneId $1 --machine cluster
 
 pip3 install tqdm
 pip3 install scikit-learn
+pip3 install opencv-python==3.4.2.17
 
 python script_preprocess.py --sceneId $1 --machine cluster
 bash script_runInvRender.sh $1 0 "cluster"
