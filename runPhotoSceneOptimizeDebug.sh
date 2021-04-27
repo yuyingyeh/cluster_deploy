@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 sceneId=$1
 gpuId=0
 modeName="statWeight"
@@ -9,7 +9,8 @@ preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
 
 #condaRoot="/root/miniconda3/etc/profile.d/conda.sh"
 condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
-source $condaRoot
+. $condaRoot
+#source $condaRoot
 
 # Graph Classification
 orSnRoot="/eccv20dataset/yyeh/OpenRoomScanNetView"
