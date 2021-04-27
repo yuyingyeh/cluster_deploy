@@ -50,6 +50,7 @@ cd $preprocessRoot
 isDebug=true
 
 ### >>> Run Homogeneous
+echo "Run Homo!"
 isHomo=true
 if [ "$isDebug" = true ]; then matDirName="optMatDebugHomo"; else matDirName="optMatHomo"; fi
 conda activate diffmat
@@ -58,14 +59,18 @@ bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes tru
 ### <<< Run Homogeneous
 
 ### >>> Run MaterialGAN
+echo "Run MaterialGAN!"
 # matplotlib opencv imageio
 if [ "$isDebug" = true ]; then matDirName="optMatDebugGan"; else matDirName="optMatGan"; fi
 conda activate pytorch-py37
 bash script_optMatGAN.sh $sceneId $gpuId "cluster" $modeName $modeId false "$isDebug" "$runDebugInvRender"
 # bash script_optMatGAN.sh 0022_01 0 cluster statWeight 1 false true false
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isGan --isDebug --machine cluster
+# python combineResultNew.py --sceneId 0022_01 --modeName statWeight --modeId 1 --isSelect --isGan --isDebug --machine cluster
 ### <<< Run MaterialGAN
 
 ### >>> Run MaTch
+echo "Run MaTch!"
 isHomo=false
 if [ "$isDebug" = true ]; then matDirName="optMatDebug"; else matDirName="optMat"; fi
 conda activate diffmat
@@ -74,5 +79,3 @@ bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes fal
 ### <<< Run MaTch
 
 
-
-# python combineResultNew.py --sceneId 0001_00 --modeName statWeight --modeId 1 --isSelect --isGan --isDebug
