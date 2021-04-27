@@ -60,6 +60,7 @@ echo "Run Homo!"
 isHomo=true
 if [ "$isDebug" = true ]; then matDirName="optMatDebugHomo"; else matDirName="optMatHomo"; fi
 conda activate diffmat
+#python -c "import imageio; imageio.plugins.freeimage.download()"
 bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes true false "$isDebug" "$runDebugInvRender"
 # bash script_optMatAll.sh 0022_01 0 cluster statWeight 1 8 true false true false
 python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isHomo --isDebug --machine cluster
