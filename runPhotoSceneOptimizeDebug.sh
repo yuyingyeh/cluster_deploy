@@ -1,8 +1,8 @@
 #!/bin/bash
 sceneId=$1
 gpuId=0
-modeName="statWeight"
-modeId=1
+modeName="${2:-"statWeight"}"
+modeId="${3:-1}"
 matRes=8
 runDebugInvRender=false
 preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
