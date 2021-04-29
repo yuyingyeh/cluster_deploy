@@ -67,6 +67,11 @@ bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeIdHomo $matRes
 python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeIdHomo --isSelect --isHomo --isDebug --machine cluster
 ### <<< Run Homogeneous
 
+### >>> Homogeneous Regularization
+modeNameHomo="Weight"
+bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeNameHomo $modeIdHomo $matRes true false "$isDebug" "$runDebugInvRender"
+### <<< Homogeneous Regularization
+
 ### >>> Run MaterialGAN
 echo "Run MaterialGAN!"
 # matplotlib opencv imageio
