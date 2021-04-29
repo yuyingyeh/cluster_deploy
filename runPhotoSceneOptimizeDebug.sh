@@ -58,12 +58,13 @@ isDebug=true
 ### >>> Run Homogeneous
 echo "Run Homo!"
 isHomo=true
+modeIdHomo=1
 if [ "$isDebug" = true ]; then matDirName="optMatDebugHomo"; else matDirName="optMatHomo"; fi
 conda activate diffmat
 #python -c "import imageio; imageio.plugins.freeimage.download()"
-bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes true false "$isDebug" "$runDebugInvRender"
+bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeIdHomo $matRes true false "$isDebug" "$runDebugInvRender"
 # bash script_optMatAll.sh 0022_01 0 cluster statWeight 1 8 true false true false
-python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isHomo --isDebug --machine cluster
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeIdHomo --isSelect --isHomo --isDebug --machine cluster
 ### <<< Run Homogeneous
 
 ### >>> Run MaterialGAN
@@ -87,5 +88,6 @@ bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes fal
 # bash script_optMatAll.sh 0022_01 0 cluster statWeight 1 8 false false true false
 python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isDebug --machine cluster
 ### <<< Run MaTch
+
 
 
