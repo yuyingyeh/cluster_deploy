@@ -77,7 +77,7 @@ echo "Run MaterialGAN!"
 # matplotlib opencv imageio
 if [ "$isDebug" = true ]; then matDirName="optMatDebugGan"; else matDirName="optMatGan"; fi
 conda activate pytorch-py37
-#imageio_download_bin freeimage
+imageio_download_bin freeimage
 bash script_optMatGAN.sh $sceneId $gpuId "cluster" $modeName $modeId false "$isDebug" "$runDebugInvRender"
 # bash script_optMatGAN.sh 0022_01 0 cluster statWeight 1 false true false
 python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isGan --isDebug --machine cluster
