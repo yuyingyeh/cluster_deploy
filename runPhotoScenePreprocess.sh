@@ -21,7 +21,9 @@ python script_preprocess2.py --sceneId $1 --machine cluster --renderDefault --re
 
 # Need to first get selectedGraphDict.txt
 # Graph Classification
+preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
 orSnRoot="/eccv20dataset/yyeh/OpenRoomScanNetView"
+sceneId=$1
 scene="scene$sceneId"
 if [ ! -s "$orSnRoot/$scene/selectedGraphDict.txt" ]
 then
@@ -33,4 +35,5 @@ then
 else
     echo "$orSnRoot/$scene/selectedGraphDict.txt exists! Skip!"
 fi
+cd $preprocessRoot
 python script_preprocess2.py --sceneId $1 --machine cluster --renderAssignedMatch --renderAssignedGan
