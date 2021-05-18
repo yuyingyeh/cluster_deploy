@@ -55,3 +55,5 @@ cd $preprocessRoot
 
 if [ "$isDebug" = true ] ; then
     python script_preprocess2.py --sceneId $1 --machine cluster --renderAssignedMatch --renderAssignedGan
+fi
+
