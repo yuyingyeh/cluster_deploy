@@ -33,6 +33,8 @@ else
     graphDictFile="$orSnRoot/$scene/selectedGraphDict.txt"
 fi
 
+condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
+. $condaRoot
 # Need to first get selectedGraphDict.txt
 # Graph Classification
 if [ ! -s $graphDictFile ]
