@@ -3,6 +3,7 @@ sceneId=$1
 gpuId=0
 modeName="${2:-"statWeight"}"
 modeId="${3:-1}"
+debugTask="${4:-"Default"}"
 matRes=8
 runDebugInvRender=false
 preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
@@ -13,11 +14,12 @@ export CUDA_VISIBLE_DEVICES=$gpuId
 condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
 . $condaRoot
 #source $condaRoot
+isDebug=true
 
 # Graph Classification
 orSnRoot="/eccv20dataset/yyeh/OpenRoomScanNetView"
 scene="scene$sceneId"
-if [ ! -s "$orSnRoot/$scene/selectedGraphDict.txt" ]
+if [ ! -s "$orSnRoot/$scene/selectedGraphDict_random.txt" ]
 then
     #cd /eccv20dataset/yyeh/material-preprocess
     cd $preprocessRoot
@@ -38,10 +40,10 @@ then
     #    MODEL_MATCLS.real_images_list "$orSnRoot/$scene/real_images_list.txt"
 
     cd $preprocessRoot
-    bash script_runGraphClassifier.sh $sceneId $gpuId cluster
-    echo "New graph dict saved at $orSnRoot/$scene/selectedGraphDict.txt !"
+    bash script_runGraphClassifier.sh $sceneId $gpuId cluster $isDebug
+    echo "New graph dict saved at $orSnRoot/$scene/selectedGraphDict_random.txt !"
 else
-    echo "$orSnRoot/$scene/selectedGraphDict.txt exists! Skip!"
+    echo "$orSnRoot/$scene/selectedGraphDict_random.txt exists! Skip!"
 fi
 
 #pip3 install pathlib
@@ -53,18 +55,17 @@ apt-get update
 apt-get install -y libglu1
 
 cd $preprocessRoot
-isDebug=true
 
 ### >>> Run Homogeneous
 echo "Run Homo!"
 isHomo=true
 modeIdHomo=1
-if [ "$isDebug" = true ]; then matDirName="optMatDebugHomo"; else matDirName="optMatHomo"; fi
+#if [ "$isDebug" = true ]; then matDirName="optMatDebugHomo"; else matDirName="optMatHomo"; fi
 conda activate diffmat
 #python -c "import imageio; imageio.plugins.freeimage.download()"
-bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeIdHomo $matRes true false "$isDebug" "$runDebugInvRender"
+bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeIdHomo $matRes true false "$isDebug" "$runDebugInvRender" "$debugTask"
 # bash script_optMatAll.sh 0022_01 0 cluster statWeight 1 8 true false true false
-python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeIdHomo --isSelect --isHomo --isDebug --machine cluster
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeIdHomo --isSelect --isHomo --isDebug --machine cluster --debugTask $debugTask
 ### <<< Run Homogeneous
 
 ### >>> Homogeneous Regularization
@@ -75,23 +76,23 @@ bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeNameHomo $modeIdHomo $ma
 ### >>> Run MaterialGAN
 echo "Run MaterialGAN!"
 # matplotlib opencv imageio
-if [ "$isDebug" = true ]; then matDirName="optMatDebugGan"; else matDirName="optMatGan"; fi
+#if [ "$isDebug" = true ]; then matDirName="optMatDebugGan"; else matDirName="optMatGan"; fi
 conda activate pytorch-py37
 imageio_download_bin freeimage
-bash script_optMatGAN.sh $sceneId $gpuId "cluster" $modeName $modeId false "$isDebug" "$runDebugInvRender"
+bash script_optMatGAN.sh $sceneId $gpuId "cluster" $modeName $modeId false "$isDebug" "$debugTask"
 # bash script_optMatGAN.sh 0022_01 0 cluster statWeight 1 false true false
-python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isGan --isDebug --machine cluster
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isGan --isDebug --machine cluster --debugTask $debugTask
 # python combineResultNew.py --sceneId 0022_01 --modeName statWeight --modeId 1 --isSelect --isGan --isDebug --machine cluster
 ### <<< Run MaterialGAN
 
 ### >>> Run MaTch
 echo "Run MaTch!"
 isHomo=false
-if [ "$isDebug" = true ]; then matDirName="optMatDebug"; else matDirName="optMat"; fi
+#if [ "$isDebug" = true ]; then matDirName="optMatDebug"; else matDirName="optMat"; fi
 conda activate diffmat
-bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes false false "$isDebug" "$runDebugInvRender"
+bash script_optMatAll.sh $sceneId $gpuId "cluster" $modeName $modeId $matRes false false "$isDebug" "$runDebugInvRender" "$debugTask"
 # bash script_optMatAll.sh 0022_01 0 cluster statWeight 1 8 false false true false
-python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isDebug --machine cluster
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId $modeId --isSelect --isDebug --machine cluster --debugTask $debugTask
 ### <<< Run MaTch
 
 

@@ -14,11 +14,12 @@ export CUDA_VISIBLE_DEVICES=$gpuId
 condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
 . $condaRoot
 #source $condaRoot
+isDebug=true
 
 # Graph Classification
 orSnRoot="/eccv20dataset/yyeh/OpenRoomScanNetView"
 scene="scene$sceneId"
-if [ ! -s "$orSnRoot/$scene/selectedGraphDict.txt" ]
+if [ ! -s "$orSnRoot/$scene/selectedGraphDict_random.txt" ]
 then
     #cd /eccv20dataset/yyeh/material-preprocess
     cd $preprocessRoot
@@ -39,10 +40,10 @@ then
     #    MODEL_MATCLS.real_images_list "$orSnRoot/$scene/real_images_list.txt"
 
     cd $preprocessRoot
-    bash script_runGraphClassifier.sh $sceneId $gpuId cluster
-    echo "New graph dict saved at $orSnRoot/$scene/selectedGraphDict.txt !"
+    bash script_runGraphClassifier.sh $sceneId $gpuId cluster $isDebug
+    echo "New graph dict saved at $orSnRoot/$scene/selectedGraphDict_random.txt !"
 else
-    echo "$orSnRoot/$scene/selectedGraphDict.txt exists! Skip!"
+    echo "$orSnRoot/$scene/selectedGraphDict_random.txt exists! Skip!"
 fi
 
 #pip3 install pathlib
@@ -54,7 +55,6 @@ apt-get update
 apt-get install -y libglu1
 
 cd $preprocessRoot
-isDebug=true
 
 ### >>> Run MaterialGAN
 echo "Run MaterialGAN!"
