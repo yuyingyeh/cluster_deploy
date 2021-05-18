@@ -2,41 +2,40 @@
 
 preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
 orSnRoot="/eccv20dataset/yyeh/OpenRoomScanNetView"
+condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
 sceneId=$1
 scene="scene$sceneId"
 gpuId=0
 isDebug=${2:-false}
 
-pip install opencv-python==3.4.2.17
-pip install joblib
-pip install imageio==2.6
-
-cd $preprocessRoot
-python script_extractScanNet.py --sceneId $sceneId --machine cluster
-
-pip3 install tqdm
-pip3 install scikit-learn
-pip3 install opencv-python==3.4.2.17
+# >>> Environment
 apt-get update
 apt-get -y install libopencv-dev
+. $condaRoot
+conda activate pytorch-py37
+# <<< Environment
 
+cd $preprocessRoot
+# Extract ScanNet
+python script_extractScanNet.py --sceneId $sceneId --machine cluster
+
+# Preprocess: render openrooms, sample view
 python script_preprocess.py --sceneId $sceneId --machine cluster
+
+# Run inverse renering net
 bash script_runInvRender.sh $sceneId $gpuId "cluster"
 
-pip3 install torch --upgrade
+# Preprocess2: consensus aware view selection, save warped mask and other labels
 if [ "$isDebug" = true ] ; then
     python script_preprocess2.py --sceneId $sceneId --machine cluster --renderDefault --renderWhite
     graphDictFile="$orSnRoot/$scene/selectedGraphDict_random.txt"
 else
     # don't need to render default if not for debug
-    python script_preprocess2.py --sceneId $sceneId --machine cluster --renderWhite
+    python script_preprocess2.py --sceneId $sceneId --machine cluster
     graphDictFile="$orSnRoot/$scene/selectedGraphDict.txt"
 fi
 
-condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
-. $condaRoot
-# Need to first get selectedGraphDict.txt
-# Graph Classification
+# Graph Classification: to get selectedGraphDict.txt
 if [ ! -s $graphDictFile ]
 then
     if [ "$isDebug" = false ] ; then
