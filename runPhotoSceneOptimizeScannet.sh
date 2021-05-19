@@ -74,3 +74,5 @@ python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId 1 --
 # --isSelect --nSelectView 9
 # add above to show sampled views
 ### <<<Run MaTch
+
+python runRenderBaseline.py --sceneId $sceneId --gpuId 0 --modeName $modeName --modeId 1 --machine $machine
