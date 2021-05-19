@@ -69,4 +69,8 @@ CUDA_VISIBLE_DEVICES=$gpuId python script_renderCombLight.py --sceneId $sceneId 
 
 python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId 1 --machine $machine $isHomoTag
 python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId 1 --machine $machine $isHomoTag --useGlobalLight
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId 1 --machine $machine $isHomoTag --isSelect
+python combineResultNew.py --sceneId $sceneId --modeName $modeName --modeId 1 --machine $machine $isHomoTag --useGlobalLight --isSelect
+# --isSelect --nSelectView 9
+# add above to show sampled views
 ### <<<Run MaTch
