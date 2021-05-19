@@ -55,13 +55,11 @@ conda activate diffmat
 # >>>> For first round optimization
 bash script_optMatAll.sh $sceneId $gpuId $machine $modeName $modeId $res $isHomo false
 # bash script_optMatAll.sh 0001_00 0 cluster vggstatWeight 1 8 false false
-
+bash script_addAreaLight.sh $sceneId $machine
 CUDA_VISIBLE_DEVICES=$gpuId python script_renderSingleLights.py --sceneId $sceneId --modeName $modeName --modeId $modeId --machine $machine $isHomoTag
 # python script_renderSingleLights.py --sceneId 0001_00 --modeName vggstatWeight --modeId 1 --machine cluster
-
 python computeLightCoefExposure.py --sceneId $sceneId --machine $machine --taskName $modeName --modeId $modeId $isHomoTag
 # python computeLightCoefExposure.py --sceneId 0001_00 --machine cluster --taskName vggstatWeight --modeId 1
-
 CUDA_VISIBLE_DEVICES=$gpuId python script_renderCombLight.py --sceneId $sceneId --modeName $modeName --modeId $modeId --machine $machine $isHomoTag
 
 # >>>> For second round optimization
