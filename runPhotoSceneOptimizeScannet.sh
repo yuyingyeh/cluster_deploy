@@ -20,7 +20,7 @@ conda activate pytorch-py37
 # <<< Environment
 
 # Assume we have inv render results already!
-
+cd $preprocessRoot
 # Preprocess2: consensus aware view selection, save warped mask and other labels
 python script_preprocess2.py --sceneId $sceneId --machine cluster
 #graphDictFile="$orSnRoot/$scene/selectedGraphDict.txt"
