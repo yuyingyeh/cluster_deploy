@@ -6,7 +6,8 @@ condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
 sceneId=$1
 scene="scene$sceneId"
 gpuId=0
-isDebug=${2:-false}
+withMatLabel=${2:-false}
+isDebug=${3:-false}
 
 # >>> Environment
 apt-get update
@@ -25,6 +26,8 @@ python script_preprocess.py --sceneId $sceneId --machine cluster
 # Run inverse renering net
 bash script_runInvRender.sh $sceneId $gpuId "cluster"
 
+##### Unknown reason above cannot use job to run, use bash script_runInvRenderMulti.sh to process
+
 # Preprocess2: consensus aware view selection, save warped mask and other labels
 if [ "$isDebug" = true ] ; then
     python script_preprocess2.py --sceneId $sceneId --machine cluster --renderDefault --renderWhite
@@ -38,7 +41,7 @@ fi
 # Graph Classification: to get selectedGraphDict.txt
 if [ ! -s $graphDictFile ]
 then
-    if [ "$isDebug" = false ] ; then
+    if [[ "$isDebug" = false ]] && [[ "$withMatLabel" = false ]] ; then
         ##### vvv skip here if debug vvv #####
         cd $preprocessRoot
         python genMatClsList.py --sceneId $sceneId --machine cluster
