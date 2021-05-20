@@ -3,7 +3,7 @@ sceneId=$1
 gpuId=0
 modeName="${2:-"vggstatWeight"}"
 modeId="${3:-1}"
-debugTask="${4:-"Default"}"
+withMatLabel="${4:-false}"
 res=8
 runDebugInvRender=false
 preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
@@ -30,12 +30,12 @@ orSnRoot="/eccv20dataset/yyeh/OpenRoomScanNetView"
 scene="scene$sceneId"
 if [ ! -s "$orSnRoot/$scene/selectedGraphDict.txt" ]
 then
-    cd $preprocessRoot
-    python genMatClsList.py --sceneId $sceneId --machine cluster
-
-    cd $preprocessRoot
-    bash script_runMaterialClassifier.sh $sceneId $gpuId cluster
-
+    if [ "$withMatLabel" = false ] ; then
+        cd $preprocessRoot
+        python genMatClsList.py --sceneId $sceneId --machine cluster
+        cd $preprocessRoot
+        bash script_runMaterialClassifier.sh $sceneId $gpuId cluster
+    fi
     cd $preprocessRoot
     bash script_runGraphClassifier.sh $sceneId $gpuId cluster
     echo "New graph dict saved at $orSnRoot/$scene/selectedGraphDict.txt !"
