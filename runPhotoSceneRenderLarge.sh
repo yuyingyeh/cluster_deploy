@@ -7,7 +7,7 @@ withMatLabel="${4:-false}"
 res=8
 runDebugInvRender=false
 preprocessRoot="/eccv20dataset/yyeh/material-preprocess"
-
+machine="cluster"
 
 # >>> Environment
 apt-get update
