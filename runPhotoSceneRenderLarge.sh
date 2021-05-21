@@ -18,5 +18,5 @@ condaRoot="/eccv20dataset/yyeh/miniconda3/etc/profile.d/conda.sh"
 conda activate pytorch-py37
 # <<< Environment
 
-cd $preprocoessRoot
+cd $preprocessRoot
 python script_renderCombLightBaseline.py --sceneId $sceneId --modeName $modeName --modeId 1 --machine $machine --isLarge --baseline second --forceOutput --camName paper
